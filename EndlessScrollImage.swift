@@ -12,7 +12,7 @@ class EndlessScrollImage: UIView {
     override func layoutSubviews() {
         addSubview(scrollView)
         scrollView.addSubview(currentImage)
-        scrollView.addSubview(otherImage)
+        scrollView.addSubview(nextImage)
         addSubview(pageControl)
     }
     
@@ -42,11 +42,11 @@ class EndlessScrollImage: UIView {
         return currentImage
     }()
     
-    fileprivate lazy var otherImage: UIImageView = {
-        let otherImage = UIImageView.init()
-        otherImage.layer.cornerRadius = 22.0
-        otherImage.layer.masksToBounds = true
-        return otherImage
+    fileprivate lazy var nextImage: UIImageView = {
+        let nextImage = UIImageView.init()
+        nextImage.layer.cornerRadius = 22.0
+        nextImage.layer.masksToBounds = true
+        return nextImage
     }()
     
     fileprivate lazy var pageControl: UIPageControl = {
@@ -70,7 +70,7 @@ class EndlessScrollImage: UIView {
     fileprivate var direction: Direction? {
         didSet {
             if direction == .right {
-                otherImage.frame = CGRect(x: currentImage.frame.maxX + 20,
+                nextImage.frame = CGRect(x: currentImage.frame.maxX + 20,
                                           y: 0,
                                           width: self.bounds.width - 20,
                                           height: self.bounds.height)
@@ -80,7 +80,7 @@ class EndlessScrollImage: UIView {
                 }
                 
             } else if direction == .left {
-                self.otherImage.frame = CGRect(x: 0,
+                self.nextImage.frame = CGRect(x: 0,
                                                y: 0,
                                                width: self.bounds.width - 20,
                                                height: self.bounds.height)
@@ -92,7 +92,7 @@ class EndlessScrollImage: UIView {
                 }
             }
             
-            self.otherImage.image = self.imageArray[self.nextIndex]
+            self.nextImage.image = self.imageArray[self.nextIndex]
         }
     }
 }
@@ -113,7 +113,7 @@ extension EndlessScrollImage: UIScrollViewDelegate {
         if index == 1 {
             return
         }
-        currentImage.image = otherImage.image
+        currentImage.image = nextImage.image
         currentIndex = nextIndex
         scrollView.contentOffset = CGPoint(x: self.bounds.width, y: scrollView.contentOffset.y)
         pageControl.currentPage = currentIndex
