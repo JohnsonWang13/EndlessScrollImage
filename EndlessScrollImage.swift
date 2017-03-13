@@ -3,6 +3,7 @@ import UIKit
 
 class EndlessScrollImage: UIView {
     
+    //Put all image in array
     var imageArray: [UIImage] = [UIImage(named: "image1")!]
     
     fileprivate lazy var currentIndex = 0
